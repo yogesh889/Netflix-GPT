@@ -11,7 +11,7 @@ const Login = () => {
           className="w-full"
         />
       </div>
-      <form className="w-3/12 absolute p-12 my-35 mx-auto right-0 left-0 bg-black/80  text-white ">
+      <form className="w-3/12 absolute p-12 my-35 mx-auto right-0 left-0 bg-black/70  text-white ">
         <h1 className="font-bold text-3xl py-4 p-2 m-2">Sign In</h1>
         <input
           type="text"
