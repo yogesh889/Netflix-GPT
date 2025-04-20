@@ -1,6 +1,8 @@
 # Netflix-GPT
  - create react app (npm create vite@latest my-app -- --template react)
  - configure Tailwind CSS
+ - Header
+ - Login Form
 
 
 

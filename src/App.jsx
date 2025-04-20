@@ -1,12 +1,9 @@
-import React from 'react';
-import Header from "./Header"
+import React from 'react';  
+import Body from './components/Body';
 
 function App() {
   return (
-    <div>
-      <h1 className='text-5xl font-bold'>Hello React!</h1>
-      <Header />
-    </div>
+    <Body />
   );
 }
 
