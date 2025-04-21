@@ -1,8 +1,19 @@
+import { checkValidData } from "../../utils/Validate";
 import Header from "./Header";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const email = useRef(null);
+  const password = useRef(null);
+  const nameVal = useRef(null);
+
+  const handleBtnClick = () => {
+    const message = checkValidData(nameVal?.current?.value, email?.current?.value, password?.current?.value);
+    setErrorMessage(message);
+  };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -18,12 +29,16 @@ const Login = () => {
           className="w-full"
         />
       </div>
-      <form className="w-3/12 absolute p-12 my-35 mx-auto right-0 left-0 bg-black/80  text-white ">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="w-3/12 absolute p-12 my-35 mx-auto right-0 left-0 bg-black/80  text-white "
+      >
         <h1 className="font-bold text-3xl py-2">
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignInForm && (
           <input
+            ref={nameVal}
             type="text"
             placeholder="UserName"
             className="p-4 my-3 w-full bg-gray-700 text-white"
@@ -31,16 +46,22 @@ const Login = () => {
         )}
 
         <input
+          ref={email}
           type="text"
           placeholder="Email Address"
           className="p-4 my-3 w-full bg-gray-700 text-white"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="p-4 my-3 w-full bg-gray-700 text-white"
         />
-        <button className="p-4 my-4 w-full cursor-pointer bg-red-700">
+        <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
+        <button
+          className="p-4 my-4 w-full cursor-pointer bg-red-700 rounded-2xl"
+          onClick={handleBtnClick}
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p className="my-3 w-full cursor-pointer" onClick={toggleSignInForm}>

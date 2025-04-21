@@ -2,7 +2,11 @@
  - create react app (npm create vite@latest my-app -- --template react)
  - configure Tailwind CSS
  - Header
+ - Routing of app
  - Login Form
+ - Sign Up form
+ - Form Validation
+ - useRef hook
 
 
 
