@@ -7,12 +7,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../utils/userSlice";
+import { HERO_IMAGE, USER_ICON } from "../../utils/constants";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -21,7 +20,7 @@ const Login = () => {
   const password = useRef(null);
   const name = useRef(null);
 
-  const handleBtnClick = () => {
+  const dataValidation = () => {
     const message = checkValidData(
       name?.current?.value,
       email?.current?.value,
@@ -31,7 +30,8 @@ const Login = () => {
 
     if (message) return;
 
-    // Sign In/Sign Up
+
+    // if Sign Up form is there 
     if (!isSignInForm) {
       // Sign Up logic
       createUserWithEmailAndPassword(
@@ -44,20 +44,19 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/60712411?v=4",
+            userIcon: USER_ICON,
           })
             .then(() => {
               // Profile updated!
-              const { uid, email, displayName, photoURL } = auth.currentUser;
+              const { uid, email, displayName, userIcon } = auth.currentUser;
               dispatch(
                 addUser({
                   uid: uid,
                   email: email,
                   displayName: displayName,
-                  photoURL: photoURL,
+                  userIcon: userIcon,
                 })
               );
-              navigate("/browse");
               // ...
             })
             .catch((error) => {
@@ -74,7 +73,7 @@ const Login = () => {
           // ..
         });
     } else {
-      // Sign In logic
+      // otherwise Sign In with eamil password
       signInWithEmailAndPassword(
         auth,
         email?.current?.value,
@@ -83,8 +82,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
           // ...
         })
         .catch((error) => {
@@ -104,8 +101,8 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/69bec183-9cc8-49d4-8fc2-08228d3c91b4/web/IN-en-20250414-TRIFECTA-perspective_c8273fb1-8860-4ff5-bd1c-c2c4b44d5f2a_large.jpg"
-          alt="background_image"
+          src={HERO_IMAGE}
+          alt="hero_image"
           className="w-full"
         />
       </div>
@@ -140,13 +137,13 @@ const Login = () => {
         <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
         <button
           className="p-4 my-4 w-full cursor-pointer bg-red-700 rounded-2xl"
-          onClick={handleBtnClick}
+          onClick={dataValidation}
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p className="my-3 w-full cursor-pointer" onClick={toggleSignInForm}>
           {isSignInForm
-            ? "New to Netflix? Sign Up Now"
+            ? "New to Site? Sign Up Now"
             : "Already Registered? Sign In Now"}
         </p>
       </form>
