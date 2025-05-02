@@ -1,21 +1,33 @@
 import { useSelector } from "react-redux";
+import MovieList from "./MovieList";
 
 const SecondaryContainer = () => {
-  const movies = useSelector((store) => store.movies?.MostPopularMovies);
+  const movies = useSelector((store) => store.movies);
   if (!movies || movies.length === 0) return;
-//   console.log(movies);
+  // console.log(movies.MostPopularMovies);
 
   return (
-    <div className="flex overflow-x-auto whitespace-nowrap p-4 scrollbar-hide">
-      {movies.map((movie) => (
-        <img
-          key={movie.id}
-          src={movie?.primaryImage}
-          alt="movieimage"
-          className="w-50 h-60"
-        />
-      ))}
-    </div>
+    // movie list- popular
+    // movie list- now playing
+    // movie list- trending
+    movies.MostPopularMovies && (
+      <div className=" bg-black">
+        <div className=" pl-12 -mt-50 relative z-20">
+          <MovieList
+            title={"Top Box Office"}
+            movies={movies?.TopBoxOfficeMovies}
+          />
+          <MovieList
+            title={"Most Popular Movies"}
+            movies={movies?.MostPopularMovies}
+          />
+          <MovieList
+            title={"Lowest Rated Movies"}
+            movies={movies?.LowestRatedMovies}
+          />
+        </div>
+      </div>
+    )
   );
 };
 
